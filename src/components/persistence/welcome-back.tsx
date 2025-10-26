@@ -14,8 +14,9 @@ export default function WelcomeBackGate() {
   const itv = useSelector((s: RootState) => s.interview);
 
   const show = useMemo(() => {
+    const paused = itv.status === 'paused';
     const hasProgress = itv.qas.length === 6 && itv.remainingMs > 0;
-    return candidate.ready && hasProgress && itv.status !== 'running' && itv.status !== 'finished';
+    return candidate.ready && paused && hasProgress;
   }, [candidate.ready, itv.qas.length, itv.remainingMs, itv.status]);
 
   if (!show) return null;

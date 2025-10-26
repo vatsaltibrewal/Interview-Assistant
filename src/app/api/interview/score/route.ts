@@ -43,17 +43,17 @@ export async function POST(req: Request) {
   };
 
   const system = `You are a precise technical interviewer for a Full-Stack (React/Node) role.
-Evaluate 6 Q/A pairs. For each question, return {difficulty, score 0..10, notes}.
-Then provide a concise summary and a recommendation. Do NOT include an index field. Return JSON only.`;
+                  Evaluate 6 Q/A pairs. For each question, return {difficulty, score 0..10, notes}.
+                  Then provide a concise summary and a recommendation. Do NOT include an index field. Return JSON only.`;
 
   const prompt = `Resume (trimmed):
-"""${(resumeText ?? '').slice(0, 3000)}"""
+                  """${(resumeText ?? '').slice(0, 3000)}"""
 
-Q/A:
-${qas.map((x, i) => `#${i+1} [${x.difficulty.toUpperCase()}]
-Q: ${x.q}
-A: ${x.a || '(no answer)'}
-`).join('\n')}`;
+                  Q/A:
+                  ${qas.map((x, i) => `#${i+1} [${x.difficulty.toUpperCase()}]
+                  Q: ${x.q}
+                  A: ${x.a || '(no answer)'}
+                  `).join('\n')}`;
 
   try {
     const { object } = await generateObject({

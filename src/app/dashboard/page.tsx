@@ -27,7 +27,7 @@ export default function DashboardPage() {
   const current = items.find(x => x.id === currentId);
 
   return (
-    <main className="mx-auto max-w-6xl p-6 space-y-4">
+    <main className="mx-auto min-h-svh max-w-6xl p-6 space-y-4 flex justify-center flex-col">
       <h1 className="text-2xl font-semibold">Candidates</h1>
       <DataTable data={items} columns={cols} placeholder="Search by name, email, decision…" />
       <DetailDrawer open={open} onOpenChange={setOpen} record={current!} />
