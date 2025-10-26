@@ -1,0 +1,73 @@
+@import "tailwindcss";
+/* Optional if you add shadcn's recommended animation lib later: */
+@import "tw-animate-css";
+
+/* 1) Define our shadcn-style CSS variables for dark Green-Mist */
+:root {
+  /* Dark surface + misty mint accents */
+  --background: hsl(210 30% 6%);       /* deep blue-slate */
+  --foreground: hsl(166 70% 90%);      /* misty mint text */
+
+  --card: hsl(210 25% 8%);
+  --card-foreground: hsl(166 70% 92%);
+
+  --popover: hsl(210 25% 8%);
+  --popover-foreground: hsl(166 80% 92%);
+
+  --primary: hsl(166 86% 60%);         /* GREEN MIST accent */
+  --primary-foreground: hsl(170 100% 6%);
+
+  --secondary: hsl(210 20% 12%);
+  --secondary-foreground: hsl(166 60% 85%);
+
+  --muted: hsl(210 15% 14%);
+  --muted-foreground: hsl(166 25% 70%);
+
+  --accent: hsl(166 50% 18%);
+  --accent-foreground: hsl(166 70% 92%);
+
+  --destructive: hsl(0 62% 50%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --border: hsl(210 18% 18%);
+  --input: hsl(210 18% 18%);
+  --ring: hsl(166 86% 60%);
+
+  --radius: 1rem; /* big, soft corners */
+}
+
+/* 2) Map to Tailwind v4 tokens so we can use bg-background, text-foreground, etc. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-xl: var(--radius);
+}
+
+/* Base element tweaks */
+html, body { height: 100%; }
