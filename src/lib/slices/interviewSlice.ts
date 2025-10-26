@@ -14,10 +14,10 @@ type Result = {
 } | null;
 
 export type InterviewState = {
-  qas: QA[];           // 6 pre-generated questions with timers
-  current: number;     // current index
-  remainingMs: number; // countdown for current
-  status: 'idle'|'running'|'finished';
+  qas: QA[];
+  current: number;
+  remainingMs: number;
+  status: 'idle'|'running'|'paused'|'finished';
   result: Result;
 };
 
@@ -29,45 +29,28 @@ const initialState: InterviewState = {
   result: null,
 };
 
-const interviewSlice = createSlice({
+const slice = createSlice({
   name: 'interview',
   initialState,
   reducers: {
     setQuestions(state, a: PayloadAction<{ items: { question: string; difficulty: Difficulty }[] }>) {
-      state.qas = a.payload.items.map((it) => ({
-        q: it.question,
-        difficulty: it.difficulty,
-        timerMs: TIMER[it.difficulty],
-        a: '',
-      }));
+      state.qas = a.payload.items.map(it => ({ q: it.question, difficulty: it.difficulty, timerMs: TIMER[it.difficulty], a: '' }));
       state.current = 0;
       state.remainingMs = state.qas[0]?.timerMs ?? 0;
       state.status = 'idle';
       state.result = null;
     },
-    start(state) {
-      if (state.qas.length === 6) state.status = 'running';
-    },
-    setAnswer(state, a: PayloadAction<{ index: number; text: string }>) {
-      if (state.qas[a.payload.index]) state.qas[a.payload.index].a = a.payload.text;
-    },
-    tick(state, a: PayloadAction<number>) {
-      if (state.status !== 'running') return;
-      state.remainingMs = Math.max(0, state.remainingMs - a.payload);
-    },
-    next(state) {
-      if (state.current < state.qas.length - 1) {
-        state.current += 1;
-        state.remainingMs = state.qas[state.current].timerMs;
-      } else {
-        state.status = 'finished';
-      }
-    },
+    start(state) { if (state.qas.length === 6) state.status = 'running'; },
+    setAnswer(state, a: PayloadAction<{ index: number; text: string }>) { if (state.qas[a.payload.index]) state.qas[a.payload.index].a = a.payload.text; },
+    tick(state, a: PayloadAction<number>) { if (state.status === 'running') state.remainingMs = Math.max(0, state.remainingMs - a.payload); },
+    next(state) { if (state.current < state.qas.length - 1) { state.current += 1; state.remainingMs = state.qas[state.current].timerMs; } else { state.status = 'finished'; } },
     finish(state) { state.status = 'finished'; },
+    pause(state) { if (state.status === 'running') state.status = 'paused'; },
+    resume(state) { if (state.status === 'paused') state.status = 'running'; },
     setResult(state, a: PayloadAction<NonNullable<Result>>) { state.result = a.payload; },
     reset() { return initialState; },
   },
 });
 
-export const { setQuestions, start, setAnswer, tick, next, finish, setResult, reset } = interviewSlice.actions;
-export default interviewSlice.reducer;
+export const { setQuestions, start, setAnswer, tick, next, finish, pause, resume, setResult, reset } = slice.actions;
+export default slice.reducer;

@@ -15,7 +15,9 @@ export default function TestPage() {
   const parsed = useSelector((s: RootState) => s.candidate.parsed);
 
   // start interview on mount (if questions exist)
-  React.useEffect(() => { if (st.qas.length === 6) (dispatch as any)(start()); }, [dispatch, st.qas.length]);
+  React.useEffect(() => { 
+    if (st.qas.length === 6 && st.status === 'idle') (dispatch as any)(start()); 
+  }, [dispatch, st.qas.length, st.status]);
 
   // 1-second countdown tick
   React.useEffect(() => {

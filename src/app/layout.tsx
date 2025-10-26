@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Providers from "./providers"; 
+import SessionWatcher from '@/components/persistence/session-watcher';
+import WelcomeBackGate from "@/components/persistence/welcome-back";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="min-h-svh bg-background text-foreground antialiased">
-        <Providers>{children}</Providers>
+        <Providers>
+          <SessionWatcher />
+          <WelcomeBackGate />
+          {children}
+        </Providers>
       </body>
     </html>
   );
